@@ -1,9 +1,9 @@
-name: Deploy Estore App to Azure App Service
+name: Deploy E-store App to Azure App Service
 
 on:
   push:
     branches:
-       - store-app
+       - main
 
 jobs:
   build:
@@ -39,4 +39,3 @@ deploy:
         app-name: e-store
         publish-profile: ${{ secrets.azureWebAppPublishProfile }}
         package: '*.jar'
-        
