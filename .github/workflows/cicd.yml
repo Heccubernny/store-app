@@ -1,0 +1,42 @@
+name: Deploy Estore App to Azure App Service
+
+on:
+  push:
+    branches:
+       - store-app
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Source
+        uses: actions/checkout@v3
+      - name: Setup Java
+        uses: actions/setup-java@v3
+        with:
+          java-version: '17'
+          distribution: 'temurin'
+      - name: Build with Maven
+        run: mvn clean install -DskipTests
+      - name: Upload JAR to Azure App Services
+        uses: actions/upload-artifact@v2
+        with:
+          name: estore-app-example
+          path: ${{ github.workspace }}/target/*.jar
+deploy:
+  runs-on: ubuntu-latest
+  needs: build
+  environment:
+    name: Azure-App-Service
+  steps:
+    - name: Download JAR from build job
+      uses: actions/download-artifact@v2
+      with:
+        name: estore-app-example
+    - name: Deploy to Azure App Service
+      uses: azure/webapps-deploy@v2
+      with:
+        app-name: e-store
+        publish-profile: ${{ secrets.azureWebAppPublishProfile }}
+        package: '*.jar'
+        
