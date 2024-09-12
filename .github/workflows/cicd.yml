@@ -23,19 +23,19 @@ jobs:
         with:
           name: estore-app-example
           path: ${{ github.workspace }}/target/*.jar
-deploy:
-  runs-on: ubuntu-latest
-  needs: build
-  environment:
-    name: Azure-App-Service
-  steps:
-    - name: Download JAR from build job
-      uses: actions/download-artifact@v2
-      with:
-        name: estore-app-example
-    - name: Deploy to Azure App Service
-      uses: azure/webapps-deploy@v2
-      with:
-        app-name: e-store
-        publish-profile: ${{ secrets.azureWebAppPublishProfile }}
-        package: '*.jar'
+  deploy:
+    runs-on: ubuntu-latest
+    needs: build
+    environment:
+      name: Azure-App-Service
+    steps:
+      - name: Download JAR from build job
+        uses: actions/download-artifact@v2
+        with:
+          name: estore-app-example
+      - name: Deploy to Azure App Service
+        uses: azure/webapps-deploy@v2
+        with:
+          app-name: e-store
+          publish-profile: ${{ secrets.azureWebAppPublishProfile }}
+          package: '*.jar'
