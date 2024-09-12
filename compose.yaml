@@ -1,0 +1,13 @@
+services:
+  mysql:
+    container_name: 'pride'
+    image: 'mysql:latest'
+    environment:
+      - MYSQL_DATABASE: 'pride'
+      - MYSQL_USER: 'root'
+      - MYSQL_PASSWORD: ''
+      - MYSQL_ROOT_PASSWORD: ''
+    ports:
+      - '3306:3306'
+    volumes:
+      - './data/mysql:/var/lib/mysql'
